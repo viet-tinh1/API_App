@@ -1,0 +1,51 @@
+﻿@page
+@model eStoreClient.Pages.Report.IndexModel
+@{
+}
+<a style="margin-right:10px" href="./user">user</a>
+<a style="margin-right:10px" href="./login">logout</a>
+<a style="margin-right:10px" href="./home">home</a>
+<a style="margin-right:10px" href="./report">report</a>
+<a style="margin-right:10px" href="./orderhistory">Order History</a>
+<h1>Date Range Selection</h1>
+<div class="col-md-4">
+    <form method="post" asp-page-handler="ReportSale">
+        <label for="startdate">Start Date:</label>
+        <input type="datetime-local" id="startdate" name="startdate" required>
+
+        <br>
+
+        <label style="margin-top: 5px" for="enddate">End Date:</label>
+        <input style=margin-top: 5px" type="datetime-local" id="enddate" name="enddate" required>
+
+        <br>
+
+        <button type="submit" class="btn btn-primary" style="margin: 5px">Submit</button>
+
+    </form>
+</div>
+
+
+<div class="col-md-8">
+    <table class="table table-bordered text-md-center">
+        <thead>
+            <tr>
+                <th>ProductName</th>
+                <th>TotalSale</th>
+              
+                <!-- Thêm các tiêu đề cột khác nếu cần -->
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var p in Model.listReportSale)
+            {
+                <tr>
+                    <td>@p.ProductName</td>
+                    <td>@p.Quantity</td>
+                </tr>
+
+            }
+
+        </tbody>
+    </table>
+</div>

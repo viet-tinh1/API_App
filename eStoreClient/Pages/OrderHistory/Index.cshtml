@@ -1,0 +1,75 @@
+﻿@page
+@model eStoreClient.Pages.OrderHistory.IndexModel
+@{
+}
+<a style="margin-right:10px" href="./user">user</a>
+<a style="margin-right:10px" href="./logout">logout</a>
+<a style="margin-right:10px" href="./home">home</a>
+@if (Model.isAdmin == 1)
+{
+    <a style="margin-right:10px" href="./report">report</a>
+}
+<a style="margin-right:10px" href="./orderhistory">Order History</a>
+@if (Model.isAdmin == 1)
+{
+    <div class="col-md-4">
+        <form method="post" asp-page-handler="UpdateOrder">
+            <div class="form-group">
+                <input type="number" style="display: none" name="OrderId" value="@(Model.orderSelected == null ? 0:Model.orderSelected.OrderId)" class="form-control" />
+                <label for="RequiredDate">RequiredDate: </label>
+                <input type="datetime" name="RequiredDate" value="@(Model.orderSelected == null ? "":Model.orderSelected.RequiredDate)" class="form-control" />
+                <label for="OrderDate">OrderDate: </label>
+                <input type="datetime" name="OrderDate" value="@(Model.orderSelected == null? "":Model.orderSelected.OrderDate)" class="form-control" />
+                <label for="ShippedDate">ShippedDate: </label>
+                <input type="datetime" name="ShippedDate" value="@(Model.orderSelected == null? "":Model.orderSelected.ShippedDate)" class="form-control" />
+
+            </div>
+            <button style="margin-top:10px" type="submit" class="btn btn-primary">Save</button>
+
+        </form>
+    </div>
+}
+<div>
+    <table class="table table-bordered text-md-center">
+        <thead>
+            <tr>
+                <th>OrderId</th>
+                <th>RequiredDate</th>
+                <th>OrderDate</th>
+                <th>ShippedDate</th>
+                  @if (Model.isAdmin == 1)
+                {
+                    <th>Action</th>
+                }
+                <!-- Thêm các tiêu đề cột khác nếu cần -->
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var p in Model.listOrder)
+            {
+                <tr>
+                    <td>@p.OrderId</td>
+                    <td>@p.RequiredDate</td>
+                    <td>@p.OrderDate</td>
+                    <td>@p.ShippedDate</td>
+                    <td>
+                    @if (Model.isAdmin == 1)
+                    {
+                        <form method="post" asp-page-handler="DeleteOrder">
+                            <input value="@p.OrderId" style="display:none" name="orderId" />
+                            <button type="submit" style="margin: 5px" class="btn btn-danger">delete</button>
+                        </form>
+
+                        <form method="post" asp-page-handler="SelectedOrder">
+                            <input value="@p.OrderId" style="display:none" name="orderId" />
+                            <button type="submit" style="margin: 5px" id="updateButton" class="btn btn-primary">Edit</button>
+                        </form>
+                        }
+                    </td>
+                </tr>
+
+            }
+
+        </tbody>
+    </table>
+</div>
